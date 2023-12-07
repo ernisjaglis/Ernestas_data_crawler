@@ -2,17 +2,23 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from queue import Queue
 from lxml.etree import HTML
 from requests import get
+from threading import Lock
+
 # Global variables
 visited_pages = set()
 visited_articles = set()
 pages_queue = Queue()
 articles_queue = Queue()
 
+lock = Lock()
+
 def query_to_url(query: str) -> str:
     return f"https://www.lrytas.lt/search?q={query}"
 
+
 def process_page(page_url: str):
-    print(page_url)
+    with lock:
+        print(page_url)
     # global visited_pages, visited_articles, pages_queue, articles_queue
     try:
         response = get(page_url)
@@ -32,7 +38,8 @@ def process_page(page_url: str):
     except Exception as e:
         print("Error retrieving url:", e)
 
-if __name__ == "__main__":
+
+def main():
     initial_url = query_to_url("rytas")
     pages_queue.put(initial_url)
     visited_pages.add(initial_url)
@@ -49,3 +56,7 @@ if __name__ == "__main__":
             for future in done:
                 futures.remove(future)
     print("Finished processing all pages.")
+
+
+if __name__ == "__main__":
+    main()
