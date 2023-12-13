@@ -66,12 +66,12 @@ def process_articles_page(articles_page: dict[str, Any]) -> list[tuple[int, int,
     ]
  
  
-# def extract_data_from_article(page_html: str) -> tuple[int, int, int]:
-#     tree = HTML(page_html)
-#     return tuple(
-#         int(element.strip())
-#         for element in tree.xpath("//div[@class='LArticleEmotions__count']/text()")
-#     )
+def extract_data_from_article(page_html: str) -> tuple[int, int, int]:
+     tree = HTML(page_html)
+     return tuple(
+         int(element.strip())
+         for element in tree.xpath("//div[@class='LArticleEmotions__count']/text()")
+     )
  
  
 def process_page(page_url: str):

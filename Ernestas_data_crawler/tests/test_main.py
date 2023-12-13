@@ -1,10 +1,10 @@
 
 from requests import patch
-from Ernestas_data_crawler.main import extract_data_from_article
-from Ernestas_data_crawler.definitions import test_dir
+from Ernestas_data_crawler import extract_data_from_article
+from definitions import test_dir
 import pytest
 from unittest.mock import Mock
-from unittest.mock import Patch
+from unittest.mock import patch
 from requests import Response
 
 
@@ -20,7 +20,7 @@ def fake_get(url: str) -> str:
     default_response = Response()
     default_response.status_code = 200
     content = "<html></html>"
-    if url = "https://www.lrytas.lt/search?q=vakcinavimas":
+    if url == "https://www.lrytas.lt/search?q=vakcinavimas":
         with open (test_dir / "article.html") as f:
             content = f.read()
     default_response.text = content
@@ -29,5 +29,7 @@ def fake_get(url: str) -> str:
 
 
 def test_process_page():
-    with patch("")
-    
+    with patch("requests.get", wraps = fake_get) as wrapped_get:
+        main()
+        
+        
